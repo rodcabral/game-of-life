@@ -15,9 +15,18 @@ void print_gen();
 int main(void) {
     srand(time(NULL));
 
+    init_state();
     print_gen();
 
     return 0;
+}
+
+void init_state() {
+    for(int i = 0; i < ROW; ++i) {
+        for(int j = 0; j < COL; j++) {
+            grid[i][j] = rand() % 2;
+        }
+    }
 }
 
 void print_gen() {
