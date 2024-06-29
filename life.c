@@ -5,18 +5,24 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 
-#define WINDOW_WIDTH 350
-#define WINDOW_HEIGHT 350
+#define WINDOW_WIDTH 750
+#define WINDOW_HEIGHT 750
 
-#define ROW 30
-#define COL 30
+#define CELL_SIZE 15
+#define GRID_SIZE WINDOW_WIDTH / CELL_SIZE
+
+#define ROW GRID_SIZE
+#define COL GRID_SIZE
 
 int grid[ROW][COL] = {0};
+
+int gap = 1;
 
 void init_state();
 int count_nbh(int row, int col);
 void next_gen();
 void print_gen();
+void print_grid();
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -44,6 +50,7 @@ int main(void) {
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 255);
         SDL_RenderClear(renderer);
 
+        print_grid();
         print_gen();
         next_gen();
 
@@ -58,27 +65,49 @@ int main(void) {
         }
     }
 
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+
     return 0;
 }
 
 void init_state() {
-    for(int i = 0; i < ROW; ++i) {
-        for(int j = 0; j < COL; j++) {
-            grid[i][j] = rand() % 2;
-        }
+    for(int i = 0; i < ROW/3 * COL/2; ++i) {
+        grid[rand() % ROW][rand() % COL] = rand() % 2;
     }
 }
 
 void print_gen() {
     for(int i = 0; i < ROW; ++i) {
         for(int j = 0; j < COL; j++) {
+            SDL_Rect rect;
+            rect.w = CELL_SIZE - gap;
+            rect.h = CELL_SIZE - gap;
+
+            rect.x = (j * CELL_SIZE) + gap;
+            rect.y = (i * CELL_SIZE) + gap;
+
             if(grid[i][j] == 1) {
-                printf("0");
-            } else {
-                printf(" ");
+                SDL_SetRenderDrawColor(renderer, 0x1a, 0x19, 0x19, 255);
+                SDL_RenderFillRect(renderer, &rect);
             }
         }
-        printf("\n");
+    }
+    SDL_Delay(80);
+}
+
+void print_grid() {
+    for(int i = 0; i < ROW; ++i) {
+        for(int j = 0; j < COL; ++j) {
+            SDL_Rect rect;
+            rect.w = CELL_SIZE - gap;
+            rect.h = CELL_SIZE - gap;
+            rect.x = (j * CELL_SIZE) + gap;
+            rect.y = (i * CELL_SIZE) + gap;
+
+            SDL_SetRenderDrawColor(renderer, 0x85, 0x85, 0x85, 255);
+            SDL_RenderDrawRect(renderer, &rect);
+        }
     }
 }
 
