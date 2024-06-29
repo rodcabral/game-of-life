@@ -128,17 +128,20 @@ int count_nbh(int r, int c) {
 }
 
 void next_gen() {
+    int new_grid[ROW][COL] = {0};
+    memcpy(new_grid, grid, sizeof(grid));
     for(int i = 0; i < ROW; ++i) {
         for(int j = 0; j < COL; j++) {
             int nbh = count_nbh(i, j);
 
             if(grid[i][j] == 1 && (nbh == 2 || nbh == 3)) {
-                grid[i][j] = 1;
+                new_grid[i][j] = 1;
             } else if(grid[i][j] == 0 && nbh == 3) { 
-                grid[i][j] = 1;
+                new_grid[i][j] = 1;
             } else {
-                grid[i][j] = 0;
+                new_grid[i][j] = 0;
             }
         }
     }
+    memcpy(grid, new_grid, sizeof(grid));
 }
