@@ -2,9 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include <stdbool.h>
+#include <SDL2/SDL.h>
 
-#define ROW 15
-#define COL 15
+#define WINDOW_WIDTH 350
+#define WINDOW_HEIGHT 350
+
+#define ROW 30
+#define COL 30
 
 int grid[ROW][COL] = {0};
 
@@ -13,16 +18,44 @@ int count_nbh(int row, int col);
 void next_gen();
 void print_gen();
 
+SDL_Window* window;
+SDL_Renderer* renderer;
+
+bool is_running;
+
 int main(void) {
     srand(time(NULL));
 
-    system("clear");
+    if(SDL_Init(SDL_INIT_VIDEO) < 0) {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        return -1;
+    }
+
+    int wr = SDL_CreateWindowAndRenderer(WINDOW_WIDTH, WINDOW_HEIGHT, 0, &window, &renderer);
+
+    if(wr < 0) {
+        fprintf(stderr, "%s\n", SDL_GetError());
+        return -1;
+    }
+
+    is_running = true;
     init_state();
-    while(1) {
+    while(is_running) {
+        SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 255);
+        SDL_RenderClear(renderer);
+
         print_gen();
         next_gen();
-        printf("\e[1H");
-        sleep(1);
+
+        SDL_RenderPresent(renderer);
+
+        SDL_Event event;
+
+        while(SDL_PollEvent(&event)) {
+            if(event.type == SDL_QUIT) {
+                is_running = false;
+            }
+        }
     }
 
     return 0;
