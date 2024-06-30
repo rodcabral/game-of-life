@@ -4,15 +4,15 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
+#include <assert.h>
 
-#define WINDOW_WIDTH 750
-#define WINDOW_HEIGHT 750
+#define WINDOW_WIDTH 1400
+#define WINDOW_HEIGHT 800
 
-#define CELL_SIZE 15
-#define GRID_SIZE WINDOW_WIDTH / CELL_SIZE
+#define CELL_SIZE 10
 
-#define ROW GRID_SIZE
-#define COL GRID_SIZE
+#define ROW WINDOW_HEIGHT / CELL_SIZE
+#define COL WINDOW_WIDTH / CELL_SIZE
 
 int grid[ROW][COL] = {0};
 
@@ -72,8 +72,10 @@ int main(void) {
 }
 
 void init_state() {
-    for(int i = 0; i < ROW/3 * COL/2; ++i) {
-        grid[rand() % ROW][rand() % COL] = rand() % 2;
+    for(int i = 0; i < ROW; ++i) {
+        for(int j = 0; j < COL; ++j) {
+            grid[i][j] = rand() % 2;
+        }
     }
 }
 
@@ -105,7 +107,7 @@ void print_grid() {
             rect.x = (j * CELL_SIZE) + gap;
             rect.y = (i * CELL_SIZE) + gap;
 
-            SDL_SetRenderDrawColor(renderer, 0x85, 0x85, 0x85, 255);
+            SDL_SetRenderDrawColor(renderer, 0xcc, 0xcc, 0xcc, 255);
             SDL_RenderDrawRect(renderer, &rect);
         }
     }
