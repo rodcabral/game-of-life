@@ -1,6 +1,6 @@
 Game of Life
 =============
 
-Implementation of Conway's Game of Life in C using SDL.
+C implementation of conway's game of life using SDL
 
 ![](game.gif)
