@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
-#include <assert.h>
 
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
