@@ -6,17 +6,17 @@
 #include <SDL2/SDL.h>
 #include <assert.h>
 
-#define WINDOW_WIDTH 1400
-#define WINDOW_HEIGHT 800
+#define WINDOW_WIDTH 1600
+#define WINDOW_HEIGHT 900
 
-#define CELL_SIZE 10
+#define CELL_SIZE 7
 
 #define ROW WINDOW_HEIGHT / CELL_SIZE
 #define COL WINDOW_WIDTH / CELL_SIZE
 
 int grid[ROW][COL] = {0};
 
-int gap = 1;
+int gap = 0;
 
 void init_state();
 int count_nbh(int row, int col);
@@ -103,7 +103,7 @@ void print_gen() {
         }
         printf("\n");
     }
-    SDL_Delay(80);
+    SDL_Delay(90);
 }
 
 void print_grid() {
