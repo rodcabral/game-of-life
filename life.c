@@ -46,6 +46,7 @@ int main(void) {
 
     is_running = true;
     init_state();
+    system("clean");
     while(is_running) {
         SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 255);
         SDL_RenderClear(renderer);
@@ -63,6 +64,8 @@ int main(void) {
                 is_running = false;
             }
         }
+
+        printf("\e[1H");
     }
 
     SDL_DestroyRenderer(renderer);
@@ -92,8 +95,13 @@ void print_gen() {
             if(grid[i][j] == 1) {
                 SDL_SetRenderDrawColor(renderer, 0x1a, 0x19, 0x19, 255);
                 SDL_RenderFillRect(renderer, &rect);
+
+                printf("0");
+            } else {
+                printf(".");
             }
         }
+        printf("\n");
     }
     SDL_Delay(80);
 }
